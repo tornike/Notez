@@ -50,7 +50,8 @@ textarea {
 }
 
 #sidebar {
-  width: 300px;
+  width: 20%;
+  float: left;
 }
 
 #sidebar ul {
@@ -73,5 +74,17 @@ textarea {
   background-color: #7a77778e;
   /* border: 1px solid #dddfe2; */
   cursor: pointer;
+}
+
+#notes {
+  width: 80%;
+  float: left;
+}
+
+#notes ul {
+  width: 40%;
+  margin: auto;
+  padding: 0;
+  list-style-type: none;
 }
 

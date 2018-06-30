@@ -38,20 +38,49 @@
     </ul>
   </nav>
 
-  <div id="notes">
-    <ul>
-      <li>
-        <div class="note">
-          Aq unda iyos jigruli kai note1
-        </div>
-      </li>
-      <li>
-        <div class="note">
-          Aq unda iyos kai jigruli note2
-        </div>
-      </li>
-    </ul>
+
+<div id="main-area">
+  <div id="main-area-center">
+    <div id="new-note">
+      <input type="text" id="new-note-title" placeholder="Title">    
+      <input type="text" id="new-note-entry" onfocus="focusOnInput()" placeholder="Take a note...">
+      <div id="new-note-third-row">
+        <button id="discard-button">Discard</button>
+        <button id="save-button">Save</button>
+      </div>
+    </div>
+    
+    <div id="notes">
+      <ul>
+        <li class="note">
+          <input type="text" id="new-note-title" value="Note1">    
+          <input type="text" id="new-note-entry" onfocus="focusOnInput()" value="Noteshi წერია რაღაცეები">
+          <!-- <div id="new-note-third-row">
+            <button id="discard-button">Discard</button>
+            <button id="save-button">Save</button>
+          </div> -->
+        </li>
+        <li class="note">
+          <input type="text" id="new-note-title" value="Note2">    
+          <input type="text" id="new-note-entry" onfocus="focusOnInput()" value="სუსტებს განსაცდელი ელით">
+          <!-- <div id="new-note-third-row">
+            <button id="discard-button">Discard</button>
+            <button id="save-button">Save</button>
+          </div> -->
+        </li>
+        <li class="note">
+          <input type="text" id="new-note-title" value="Note3">    
+          <input type="text" id="new-note-entry" onfocus="focusOnInput()" value="da 2012 wlamde gedzinat?">
+          <!-- <div id="new-note-third-row">
+            <button id="discard-button">Discard</button>
+            <button id="save-button">Save</button>
+          </div> -->
+        </li>
+
+      </ul>
+    </div>
   </div>
+</div>
 
 
 </body>

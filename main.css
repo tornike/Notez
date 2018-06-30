@@ -76,15 +76,66 @@ textarea {
   cursor: pointer;
 }
 
-#notes {
+#main-area {
   width: 80%;
   float: left;
 }
 
+#main-area-center{
+  width: 30%;
+  margin-left: 20%;
+}
+
 #notes ul {
-  width: 40%;
+  /* width: 40%; */
   margin: auto;
   padding: 0;
   list-style-type: none;
+}
+
+#new-note-entry, #new-note-title, #new-note-third-row{
+  width: 100%;
+  padding: 12px 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+#new-note-entry, #new-note-third-row{
+  margin-top: -3px;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+#new-note-title{
+  margin-top: 15px;
+}
+
+#new-note-third-row{
+  background-color: white;
+}
+
+#discard-button, #save-button{
+  float: right;
+  background-color: white;
+  color: black;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px 15px;
+  outline: none;
+  border-radius: 1px;
+  /* border: 2px solid #4CAF50;  */
+}
+
+#discard-button:hover, #save-button:hover{
+  background-color: lavender;
+}
+
+#discard-button:active, #save-button:active{
+  background-color: lightgray;
 }
 

@@ -1,0 +1,31 @@
+{
+  "name": "notez",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "browserify": "^16.2.2",
+    "gulp-babel": "^7.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkhac/Notez.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tkhac/Notez/issues"
+  },
+  "homepage": "https://github.com/tkhac/Notez#readme"
+}

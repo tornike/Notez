@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Notez</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="../dist/app.js"></script>
+</head>
+
+<body>
+  <header class="header-content">
+    <div class="search">
+      <input type="text" placeholder="Search">
+      <button type="button">
+        <div class="search-button"></div>
+      </button>
+    </div>
+  </header>
+
+  <nav id="sidebar">
+    <ul>
+      <li>
+        <div class="notes"></div>
+        <p>Notez</p>
+      </li>
+      <li>
+        <div class="remainders"></div>
+        <p>Remainders</p>
+      </li>
+      <li>
+        <div class="archive"></div>
+        <p>Archive</p>
+      </li>
+      <li>
+        <div class="trash"></div>
+        <p>Trash</p>
+      </li>
+    </ul>
+  </nav>
+
+
+<div id="main-area">
+  <div id="main-area-center">
+    <div id="new-note" class="note">
+      <input type="text" class="title" placeholder="Title">    
+      <input type="text" class="entry" placeholder="Take a note...">
+      <div class="note-actions-row">
+        <button class="discard-button">Discard</button>
+        <button class="save-button">Save</button>
+      </div>
+    </div>
+    
+    <ul id="notes"></ul>
+
+  </div>
+</div>
+
+</body>
+
+</html>

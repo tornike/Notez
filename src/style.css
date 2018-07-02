@@ -16,6 +16,11 @@ textarea {
   background-color: #008000;
 }
 
+#sidebar-button {
+  position: absolute;
+  cursor: pointer;
+}
+
 .search {
   width: 700px;
   height: 40px;
@@ -78,10 +83,12 @@ textarea {
 #main-area {
   width: calc(100% - 250px);
   float: left;
+
+  z-index: 2;
 }
 
 #main-area-center {
-  width: 30%;
+  width: 500px;
   margin: auto;
 }
 
@@ -117,18 +124,15 @@ textarea {
   font-size: 18px;
 }
 
-.entry, .note-actions-row {
+.note-actions-row {
   border-top: none;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-}
-
-.title, .entry{
-  border-bottom: none;  
-}
-
-.note-actions-row {
   background-color: white;
+}
+
+.title{
+  border-bottom: none;  
 }
 
 .discard-button, .save-button{
@@ -149,4 +153,18 @@ textarea {
 
 .discard-button:active, .save-button:active {
   background-color: lightgray;
+}
+
+#new-note-title, #new-note-actions-row {
+  display:none;
+}
+
+
+#new-note-entry:focus-within{
+  /* document.getElementById("new-note-title").style.display = 'inline-block'; */
+  /* document.getElementById("new-note-actions-row").style.display = 'inline-block'; */
+  border-top: none;
+  border-bottom: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }

@@ -34,4 +34,29 @@ function ready(fn) {
     }
 }
 
+function hideOtherFieleds() {
+    let a =  document.getElementById("new-note-entry");
+    a.addEventListener("input", function () {
+        var body = document.body,
+            html = document.documentElement;
+
+        // var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                            // html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+        // console.log(html.clientHeight - a.scrollHeight);
+        // console.log(html.clientHeight);
+        if(html.clientHeight - a.scrollHeight < 200){
+            a.style.height = html.clientHeight-200+"px";
+            a.style.maxHeight = html.clientHeight;
+            a.style.overflowY = "scroll";
+        }else{
+            a.style.overflowY = "hidden";
+            a.style.height = "auto";
+            a.style.height = (a.scrollHeight)+"px";
+        }
+        
+    });
+}
+
 ready(listenToCreate);
+ready(hideOtherFieleds);

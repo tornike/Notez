@@ -1,6 +1,8 @@
 var express = require("express");
 var app = express();
 
+var data = {notes: [], trash: [], archive: []};
+
 /* Static resources - styles, images, etc. */
 app.use(express.static('src'));
 app.use(express.static('src/js'));
@@ -11,8 +13,8 @@ app.get("/", function(req,res) {
 	res.sendFile(__dirname + "/src/index.html");
 });
 
-app.get("/babana", function(req,res) {
-	res.send("babana wemovida");
+app.get("/getNotes", function(req,res) {
+	res.send(req.query);
 });
 
 app.listen(8000, function() {

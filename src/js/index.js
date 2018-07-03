@@ -1,5 +1,6 @@
-let createNote = require("./note.js");
+// include("router.js");
 
+let createNote = require("./note.js");
 let nextId = 0;
 
 function initSidebar() {
@@ -59,3 +60,13 @@ function resizeTextarea () {
 
 ready(initSidebar);
 ready(initNewNote);
+
+Router.config({mode: "hash"});
+Router.add("notez", function(){
+    document.getElementById("new-note").style.display = "";
+});
+Router.add("remainders", function(){
+    document.getElementById("new-note").style.display = "none";
+});
+Router.navigate("notez");
+Router.listen();

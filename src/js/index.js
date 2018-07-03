@@ -26,10 +26,22 @@ function initNewNote() {
         let newTitle = newNote.getElementsByClassName("title")[0];
         let newEntry = newNote.getElementsByClassName("entry")[0];
         let noteStr = createNote(newTitle.value, newEntry.value, nextId);
+
         notes.insertAdjacentHTML("beforeend", noteStr);
         let note = document.getElementById("note#" + nextId++);
         let entry = note.children[1];
         entry.addEventListener ("input", resizeTextarea);
+
+        saveButton = note.children[2].children[1]
+        saveButton.addEventListener("click", saveNote);
+
+        let params = {};
+        params["title"] = newTitle.value;
+        params["text"] = newEntry.value;
+        params["id"] = nextId;
+
+        sendAjaxPostRequest("saveNote", JSON.stringify(params), callback);
+
         newTitle.value = "";
         newEntry.value = "";
     });
@@ -56,11 +68,49 @@ function resizeTextarea () {
     }
 }
 
+function saveNote(event){
+    let note = event.target.parentElement.parentElement;
+
+    let title = note.getElementsByClassName("title")[0].value;
+    let text = note.getElementsByClassName("entry")[0].value;
+    let id = note.id;
+
+    params = {};
+    params["title"] = title;
+    params["text"] = text;
+    params["id"] = id;
+
+    sendAjaxPostRequest("saveNote", JSON.stringify(params), callback);
+}
+
 ready(initSidebar);
 ready(initNewNote);
 
 function callback(data){
     console.log(data);
+}
+
+function sendAjaxPostRequest(url, params, callback){
+    var request = new XMLHttpRequest();
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-type", "application/json");
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+        // Success!
+        var data = request.responseText;
+        callback(data);
+        } else {
+        // We reached our target server, but it returned an error
+        console.log("Server Error");
+        }
+    };
+
+    request.onerror = function(){
+        // There was a connection error of some sort
+        console.log("error");
+    };
+	request.send(params);
 }
 
 function sendAjaxRequest(url, callback) {
@@ -78,7 +128,7 @@ function sendAjaxRequest(url, callback) {
         }
     };
 
-    request.onerror = function() {
+    request.onerror = function(){
         // There was a connection error of some sort
         console.log("error");
     };

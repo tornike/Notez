@@ -63,19 +63,33 @@ textarea {
   margin: 0;
 }
 
-#sidebar li {
-  margin: 0;
-  padding: 15px 0px 15px 15px;
-}
-
 #sidebar p {
   margin: 0;
   font-size: 17px;
 }
 
+/* #sidebar li {
+  margin: 0;
+} */
+
 #sidebar li:hover {
   background-color: #7a77778e;
   cursor: pointer;
+}
+
+
+a {
+  color: darkslategrey;
+  display: inline-block;
+  text-decoration: none;
+  padding: 15px 0px 15px 15px;
+  height: 100%;
+  width: 100%;
+
+}
+
+a:visited {
+  color: darkslategrey;
 }
 
 

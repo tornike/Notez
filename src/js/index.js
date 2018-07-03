@@ -1,5 +1,3 @@
-// include("router.js");
-
 let createNote = require("./note.js");
 let nextId = 0;
 
@@ -61,12 +59,48 @@ function resizeTextarea () {
 ready(initSidebar);
 ready(initNewNote);
 
+function callback(data){
+    console.log(data);
+}
+
+function sendAjaxRequest(url, callback) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+        // Success!
+        var data = request.responseText;
+        callback(data);
+        } else {
+        // We reached our target server, but it returned an error
+        console.log("Server Error");
+        }
+    };
+
+    request.onerror = function() {
+        // There was a connection error of some sort
+        console.log("error");
+    };
+	request.send();
+}
+
 Router.config({mode: "hash"});
 Router.add("notez", function(){
     document.getElementById("new-note").style.display = "";
+    sendAjaxRequest("/getNotes?param=notez", callback);
 });
-Router.add("remainders", function(){
+Router.add("reminders", function(){
     document.getElementById("new-note").style.display = "none";
+    sendAjaxRequest("/getNotes?param=reminders", callback);
+});
+Router.add("archive", function(){
+    document.getElementById("new-note").style.display = "none";
+    sendAjaxRequest("/getNotes?param=archive", callback);
+});
+Router.add("trash", function(){
+    document.getElementById("new-note").style.display = "none";
+    sendAjaxRequest("/getNotes?param=trash", callback);
 });
 Router.navigate("notez");
 Router.listen();

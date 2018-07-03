@@ -1,7 +1,7 @@
 var express = require("express");
 var app = express();
 
-var data = {notes: [], trash: [], archive: []};
+var data = {"notes": [], "trash": [], "archive": []};
 
 /* Static resources - styles, images, etc. */
 app.use(express.static('src'));
@@ -22,7 +22,7 @@ app.get("/", function(req,res) {
 });
 
 app.get("/getNotes", function(req,res) {
-	res.send(req.query);
+	res.send(data["notes"]);
 });
 
 app.post("/archiveNote", function(req, res) {
@@ -31,8 +31,10 @@ app.post("/archiveNote", function(req, res) {
 });
 
 app.post("/saveNote", function(req, res) {
-	res.send(req.body);
-	console.log("save", req.body);
+	// res.send(req.body);
+	// console.log("save", req.body);
+	data["notes"].push(req.body);
+
 });
 
 app.post("/deleteNote", function(req, res) {

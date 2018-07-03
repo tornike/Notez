@@ -25,22 +25,62 @@ app.get("/getNotes", function(req,res) {
 	res.send(data["notes"]);
 });
 
-app.post("/archiveNote", function(req, res) {
-	res.send(req.body);
-	console.log("archive", req.body);
+app.post("/saveNote", function(req, res) {
+	console.log("save", req.body);
+	data["notes"].push(req.body);
+	res.send(JSON.stringify({"success":true}));
 });
 
-app.post("/saveNote", function(req, res) {
-	// res.send(req.body);
-	// console.log("save", req.body);
-	data["notes"].push(req.body);
+function transferNote(from, to, id){
+	for (let i = 0; i < data[from].length; i++) {
+		const element = data[from][i];
+		if(element["id"] == id){
+			data[to] = data[from].pop(i);
+		}
+	}
+}
 
+app.post("/archiveNote", function(req, res) {
+	console.log("archive", req.body);
+	transferNote("notes", "archive", req.body.id);
+	res.send(JSON.stringify({"success":true}));
 });
 
 app.post("/deleteNote", function(req, res) {
-	res.send(req.body);
-	console.log("delete", req.body);
+	transferNote("notes", "trash", req.body.id);
+	res.send(JSON.stringify({"success":true}));
 });
+
+app.post("/bringBackArchieved", function(req, res) {
+	transferNote("archive", "notes", req.body.id);
+	res.send(JSON.stringify({"success":true}));
+});
+
+app.post("/deleteArchieved", function(req, res) {
+	transferNote("archive", "trash", req.body.id);
+	res.send(JSON.stringify({"success":true}));
+});
+
+app.post("/bringBackDeleted", function(req, res) {
+	transferNote("trash", "notes", req.body.id);
+	res.send(JSON.stringify({"success":true}));
+});
+
+app.post("/archiveDeleted", function(req, res) {
+	transferNote("trash", "archive", req.body.id);
+	res.send(JSON.stringify({"success":true}));
+});
+
+app.post("/deleteFromTrash", function(req, res) {
+	for (let i = 0; i < data["trash"].length; i++) {
+		const element = data["trash"][i];
+		if(element["id"] == id){
+			data["trash"].pop(i);
+		}
+	}
+	res.send(JSON.stringify({"success":true}));
+});
+
 
 app.listen(8000, function() {
 	// visualize running server 

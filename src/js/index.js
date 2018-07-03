@@ -38,7 +38,7 @@ function initNewNote() {
         let params = {};
         params["title"] = newTitle.value;
         params["text"] = newEntry.value;
-        params["id"] = nextId;
+        params["id"] = note.id;
 
         sendAjaxPostRequest("saveNote", JSON.stringify(params), callback);
 
@@ -97,12 +97,12 @@ function sendAjaxPostRequest(url, params, callback){
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
-        // Success!
-        var data = request.responseText;
-        callback(data);
+            // Success!
+            var data = request.responseText;
+            callback(data);
         } else {
-        // We reached our target server, but it returned an error
-        console.log("Server Error");
+            // We reached our target server, but it returned an error
+            console.log("Server Error");
         }
     };
 

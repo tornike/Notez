@@ -1,9 +1,9 @@
 
-function createNote(title, text) {
+function createNote(title, text, id) {
 	let html = `
-		<li class="note">
+		<li id="note#${id}" class="note">
 			<input type="text" class="title" placeholder="Title" value=${title}>  
-			<input type="text" class="entry" value=${text}>
+			<textarea class="entry" placeholder="Take a note...">${text}</textarea>
 			<div class="note-actions-row">
 				<button class="discard-button">Discard</button>
 				<button class="save-button">Save</button>

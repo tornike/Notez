@@ -25,19 +25,19 @@
     <ul>
       <li>
         <div class="notes"></div>
-        <p>Notez</p>
+        <a href="#notez">Notez</a>
       </li>
       <li>
         <div class="remainders"></div>
-        <p>Remainders</p>
+        <a href="#remainders">Remainders</a>
       </li>
       <li>
         <div class="archive"></div>
-        <p>Archive</p>
+        <a href="#archive">Archive</a>
       </li>
       <li>
         <div class="trash"></div>
-        <p>Trash</p>
+        <a href="#trash">Trash</a>
       </li>
     </ul>
   </nav>
@@ -45,10 +45,11 @@
 
 <div id="main-area">
   <div id="main-area-center">
+    
     <div id="new-note" class="note">
-      <input type="text" id="new-note-title" class="title" placeholder="Title">    
-      <textarea id="new-note-entry" class="entry" placeholder="Take a note..."></textarea>
-      <div class="note-actions-row" id="new-note-actions-row">
+      <input type="text" class="title" placeholder="Title">
+      <textarea class="entry" placeholder="Take a note..."></textarea>
+      <div class="note-actions-row">
         <button class="discard-button">Discard</button>
         <button class="save-button">Save</button>
       </div>

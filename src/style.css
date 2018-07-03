@@ -152,7 +152,7 @@ a:visited {
 
 
 
-.discard-button, .save-button{
+.discard-button, .save-button, .delete-button, .archive-button{
   float: right;
   background-color: white;
   color: black;
@@ -164,11 +164,11 @@ a:visited {
   border-radius: 1px;
 }
 
-.discard-button:hover, .save-button:hover {
+.discard-button:hover, .save-button:hover, .delete-button:hover, .archive-button:hover{
   background-color: lavender;
 }
 
-.discard-button:active, .save-button:active {
+.discard-button:active, .save-button:active, .delete-button:active, .archive-button:active {
   background-color: lightgray;
 }
 

@@ -32,8 +32,14 @@ function initNewNote() {
         let entry = note.children[1];
         entry.addEventListener ("input", resizeTextarea);
 
-        saveButton = note.children[2].children[1]
+        saveButton = note.children[2].getElementsByClassName("save-button")[0];
         saveButton.addEventListener("click", saveNote);
+
+        deleteButton = note.children[2].getElementsByClassName("delete-button")[0];
+        deleteButton.addEventListener("click", deleteNote);
+
+        archiveButton = note.children[2].getElementsByClassName("archive-button")[0];
+        archiveButton.addEventListener("click", archiveNote);
 
         let params = {};
         params["title"] = newTitle.value;
@@ -81,6 +87,16 @@ function saveNote(event){
     params["id"] = id;
 
     sendAjaxPostRequest("saveNote", JSON.stringify(params), callback);
+}
+
+function deleteNote(event){
+    let id = event.target.parentElement.parentElement.id;
+    sendAjaxPostRequest("deleteNote", JSON.stringify({"id":id}), callback);
+}
+
+function archiveNote(event){
+    let id = event.target.parentElement.parentElement.id;
+    sendAjaxPostRequest("archiveNote", JSON.stringify({"id":id}), callback);
 }
 
 ready(initSidebar);

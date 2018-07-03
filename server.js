@@ -25,9 +25,19 @@ app.get("/getNotes", function(req,res) {
 	res.send(req.query);
 });
 
+app.post("/archiveNote", function(req, res) {
+	res.send(req.body);
+	console.log("archive", req.body);
+});
+
 app.post("/saveNote", function(req, res) {
 	res.send(req.body);
-	console.log(req.body);
+	console.log("save", req.body);
+});
+
+app.post("/deleteNote", function(req, res) {
+	res.send(req.body);
+	console.log("delete", req.body);
 });
 
 app.listen(8000, function() {

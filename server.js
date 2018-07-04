@@ -17,12 +17,17 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 /* Request main page */
-app.get("/", function(req,res) {
+app.get("/", function(req, res) {
 	res.sendFile(__dirname + "/src/index.html");
 });
 
-app.get("/getNotes", function(req,res) {
-	res.send(data["notes"]);
+app.get("/getNotes", function(req, res) {
+	var d = data[req.query["param"]];
+	var stringToSend = "";
+	for (var i = 0; i < d.length; d++) {
+		stringToSend += JSON.stringify(d[i]);
+	}
+	res.send(stringToSend);
 });
 
 app.post("/saveNote", function(req, res) {
@@ -32,7 +37,7 @@ app.post("/saveNote", function(req, res) {
 });
 
 function transferNote(from, to, id){
-	for (let i = 0; i < data[from].length; i++) {
+	for (var i = 0; i < data[from].length; i++) {
 		const element = data[from][i];
 		if(element["id"] == id){
 			data[to] = data[from].pop(i);
@@ -72,7 +77,7 @@ app.post("/archiveDeleted", function(req, res) {
 });
 
 app.post("/deleteFromTrash", function(req, res) {
-	for (let i = 0; i < data["trash"].length; i++) {
+	for (var i = 0; i < data["trash"].length; i++) {
 		const element = data["trash"][i];
 		if(element["id"] == id){
 			data["trash"].pop(i);

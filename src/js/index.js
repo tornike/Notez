@@ -46,7 +46,7 @@ function initNewNote() {
         params["text"] = newEntry.value;
         params["id"] = note.id;
 
-        sendAjaxPostRequest("saveNote", JSON.stringify(params), callback);
+        sendAjaxPostRequest("saveNote", JSON.stringify(params), postCallback);
 
         newTitle.value = "";
         newEntry.value = "";
@@ -86,24 +86,37 @@ function saveNote(event){
     params["text"] = text;
     params["id"] = id;
 
-    sendAjaxPostRequest("saveNote", JSON.stringify(params), callback);
+    sendAjaxPostRequest("saveNote", JSON.stringify(params), postCallback);
 }
 
 function deleteNote(event){
     let id = event.target.parentElement.parentElement.id;
-    sendAjaxPostRequest("deleteNote", JSON.stringify({"id":id}), callback);
+    sendAjaxPostRequest("deleteNote", JSON.stringify({"id":id}), postCallback);
 }
 
 function archiveNote(event){
     let id = event.target.parentElement.parentElement.id;
-    sendAjaxPostRequest("archiveNote", JSON.stringify({"id":id}), callback);
+    sendAjaxPostRequest("archiveNote", JSON.stringify({"id":id}), postCallback);
 }
 
 ready(initSidebar);
 ready(initNewNote);
 
-function callback(data){
-    console.log(data);
+function getCallback(dataStr) {
+    let notes = document.getElementById("notes");
+    notes.innerHTML = "";
+    if (dataStr === "") return;
+    let data = dataStr.split(';');;
+    for (let i = 0; i < data.length; i++) {
+        let noteJson = JSON.parse(data[i]);
+        console.log(noteJson);
+        let noteStr = createNote(noteJson["title"], noteJson["text"], noteJson["id"]);
+        notes.insertAdjacentHTML("beforeend", noteStr);
+    }
+}
+
+function postCallback(data) {
+    console.log("post: " + data);
 }
 
 function sendAjaxPostRequest(url, params, callback){
@@ -135,12 +148,12 @@ function sendAjaxRequest(url, callback) {
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
-        // Success!
-        var data = request.responseText;
-        callback(data);
+            // Success!
+            var data = request.responseText;
+            callback(data);
         } else {
-        // We reached our target server, but it returned an error
-        console.log("Server Error");
+            // We reached our target server, but it returned an error
+            console.log("Server Error");
         }
     };
 
@@ -154,19 +167,19 @@ function sendAjaxRequest(url, callback) {
 Router.config({mode: "hash"});
 Router.add("notez", function(){
     document.getElementById("new-note").style.display = "";
-    sendAjaxRequest("/getNotes?param=notez", callback);
+    sendAjaxRequest("/getNotes?param=notes", getCallback);
 });
 Router.add("reminders", function(){
     document.getElementById("new-note").style.display = "none";
-    sendAjaxRequest("/getNotes?param=reminders", callback);
+    sendAjaxRequest("/getNotes?param=reminders", getCallback);
 });
 Router.add("archive", function(){
     document.getElementById("new-note").style.display = "none";
-    sendAjaxRequest("/getNotes?param=archive", callback);
+    sendAjaxRequest("/getNotes?param=archive", getCallback);
 });
 Router.add("trash", function(){
     document.getElementById("new-note").style.display = "none";
-    sendAjaxRequest("/getNotes?param=trash", callback);
+    sendAjaxRequest("/getNotes?param=trash", getCallback);
 });
 Router.navigate("notez");
 Router.listen();

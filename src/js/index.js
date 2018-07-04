@@ -17,6 +17,7 @@ function initSidebar() {
 
 function initNewNote() {
     let newNote = document.getElementById("new-note");
+
     let saveButton = newNote.getElementsByClassName("save-button")[0];
     let newEntry = newNote.getElementsByClassName("entry")[0];
     newEntry.addEventListener("input", resizeTextarea);
@@ -25,33 +26,31 @@ function initNewNote() {
         let newNote = document.getElementById("new-note");
         let newTitle = newNote.getElementsByClassName("title")[0];
         let newEntry = newNote.getElementsByClassName("entry")[0];
+
         let noteStr = createNote(newTitle.value, newEntry.value, nextId);
-
         notes.insertAdjacentHTML("beforeend", noteStr);
+
         let note = document.getElementById("note#" + nextId++);
-        let entry = note.children[1];
-        entry.addEventListener ("input", resizeTextarea);
-
-        saveButton = note.children[2].getElementsByClassName("save-button")[0];
-        saveButton.addEventListener("click", saveNote);
-
-        deleteButton = note.children[2].getElementsByClassName("delete-button")[0];
-        deleteButton.addEventListener("click", deleteNote);
-
-        archiveButton = note.children[2].getElementsByClassName("archive-button")[0];
-        archiveButton.addEventListener("click", archiveNote);
-
-        let params = {};
-        params["title"] = newTitle.value;
-        params["text"] = newEntry.value;
-        params["id"] = note.id;
-
-        sendAjaxPostRequest("saveNote", JSON.stringify(params), postCallback);
+        initNote(note);
+        saveNote(note);
 
         newTitle.value = "";
         newEntry.value = "";
         newEntry.style.height = "45px";
     });
+}
+
+function initNote(note) {
+    let entry = note.children[1];
+    entry.addEventListener ("input", resizeTextarea);
+
+    let actionsRow = note.children[2];
+    actionsRow.getElementsByClassName("save-button")[0].addEventListener("click", function(event) {
+        let note = event.target.parentElement.parentElement;
+        saveNote(note);
+    });
+    actionsRow.getElementsByClassName("delete-button")[0].addEventListener("click", deleteNote);
+    actionsRow.getElementsByClassName("archive-button")[0].addEventListener("click", archiveNote);
 }
 
 function ready(fn) {
@@ -75,9 +74,7 @@ function resizeTextarea () {
     }
 }
 
-function saveNote(event){
-    let note = event.target.parentElement.parentElement;
-
+function saveNote(note){
     let title = note.getElementsByClassName("title")[0].value;
     let text = note.getElementsByClassName("entry")[0].value;
     let id = note.id.replace("note#", "");
@@ -91,12 +88,12 @@ function saveNote(event){
 }
 
 function deleteNote(event){
-    let id = event.target.parentElement.parentElement.id;
+    let id = event.target.parentElement.parentElement.id.replace("note#", "");
     sendAjaxPostRequest("deleteNote", JSON.stringify({"id":id}), postCallback);
 }
 
 function archiveNote(event){
-    let id = event.target.parentElement.parentElement.id;
+    let id = event.target.parentElement.parentElement.id.replace("note#", "");
     sendAjaxPostRequest("archiveNote", JSON.stringify({"id":id}), postCallback);
 }
 
@@ -104,18 +101,21 @@ ready(initSidebar);
 ready(initNewNote);
 
 function getCallback(dataStr) {
-    let notes = document.getElementById("notes");
+    let notesElem = document.getElementById("notes");
     // load new notes
     let data = dataStr.split(";");
     let notesStr = "";
     for (let i = 0; i < data.length; i++) {
         if (data[i] === "") break;
         let noteJson = JSON.parse(data[i]);
-        console.log(noteJson);
         notesStr += createNote(noteJson["title"], noteJson["text"], noteJson["id"]);
-        //let noteStr = createNote(noteJson["title"], noteJson["text"], noteJson["id"]);
     }
-    notes.insertAdjacentHTML("beforeend", notesStr);
+    notesElem.insertAdjacentHTML("beforeend", notesStr);
+
+    let notes = notesElem.getElementsByClassName("note");
+    for (let i = 0; i < notes.length; i++) {
+        initNote(notes[i]);
+    }
 }
 
 function postCallback(data) {

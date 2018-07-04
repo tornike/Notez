@@ -36,11 +36,12 @@ app.post("/saveNote", function(req, res) {
 	res.send(JSON.stringify({"success":true}));
 });
 
-function transferNote(from, to, id){
+function transferNote(from, to, id) {
 	for (var i = 0; i < data[from].length; i++) {
-		const element = data[from][i];
-		if(element["id"] == id){
-			data[to] = data[from].pop(i);
+		const elem = data[from][i];
+		if (elem["id"] == id) {
+			data[to].push(data[from].splice(i, 1)[0]);
+			break;
 		}
 	}
 }

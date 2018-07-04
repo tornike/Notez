@@ -190,3 +190,27 @@ Router.add("trash", function(){
 });
 Router.navigate("notez");
 Router.listen();
+
+function searchNotes(){
+    let searchBar = document.getElementsByClassName("search")[0].children[0];
+    searchBar.addEventListener("keyup", function() {
+        let filter, ul, li, title, entry, everything, i;
+    
+        filter = searchBar.value.toUpperCase();
+        ul = document.getElementById("notes");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            title = li[i].getElementsByClassName("title")[0].value;
+            entry = li[i].getElementsByClassName("entry")[0].value;
+            everything = title + entry;
+            if (everything.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    });
+}
+
+ready(searchNotes);
+

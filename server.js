@@ -44,6 +44,7 @@ function transferNote(from, to, id) {
 			break;
 		}
 	}
+	console.log(data[to]);
 }
 
 app.post("/archiveNote", function(req, res) {

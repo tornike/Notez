@@ -79,7 +79,7 @@ function saveNote(event){
 
     let title = note.getElementsByClassName("title")[0].value;
     let text = note.getElementsByClassName("entry")[0].value;
-    let id = note.id;
+    let id = note.id.replace("note#", "");
 
     params = {};
     params["title"] = title;
@@ -104,15 +104,17 @@ ready(initNewNote);
 
 function getCallback(dataStr) {
     let notes = document.getElementById("notes");
-    notes.innerHTML = "";
-    if (dataStr === "") return;
-    let data = dataStr.split(';');;
+    // load new notes
+    let data = dataStr.split(";");
+    let notesStr = "";
     for (let i = 0; i < data.length; i++) {
+        if (data[i] === "") break;
         let noteJson = JSON.parse(data[i]);
         console.log(noteJson);
-        let noteStr = createNote(noteJson["title"], noteJson["text"], noteJson["id"]);
-        notes.insertAdjacentHTML("beforeend", noteStr);
+        notesStr += createNote(noteJson["title"], noteJson["text"], noteJson["id"]);
+        //let noteStr = createNote(noteJson["title"], noteJson["text"], noteJson["id"]);
     }
+    notes.insertAdjacentHTML("beforeend", notesStr);
 }
 
 function postCallback(data) {
@@ -167,18 +169,22 @@ function sendAjaxRequest(url, callback) {
 Router.config({mode: "hash"});
 Router.add("notez", function(){
     document.getElementById("new-note").style.display = "";
+    document.getElementById("notes").innerHTML = "";
     sendAjaxRequest("/getNotes?param=notes", getCallback);
 });
 Router.add("reminders", function(){
     document.getElementById("new-note").style.display = "none";
+    document.getElementById("notes").innerHTML = "";
     sendAjaxRequest("/getNotes?param=reminders", getCallback);
 });
 Router.add("archive", function(){
     document.getElementById("new-note").style.display = "none";
+    document.getElementById("notes").innerHTML = "";
     sendAjaxRequest("/getNotes?param=archive", getCallback);
 });
 Router.add("trash", function(){
     document.getElementById("new-note").style.display = "none";
+    document.getElementById("notes").innerHTML = "";
     sendAjaxRequest("/getNotes?param=trash", getCallback);
 });
 Router.navigate("notez");

@@ -1,7 +1,7 @@
 var express = require("express");
 var app = express();
 
-var data = {"notes": [], "trash": [], "archive": []};
+var data = {"notes": [], "trash": [], "archive": [], "reminders": []};
 
 /* Static resources - styles, images, etc. */
 app.use(express.static('src'));
@@ -24,8 +24,8 @@ app.get("/", function(req, res) {
 app.get("/getNotes", function(req, res) {
 	var d = data[req.query["param"]];
 	var stringToSend = "";
-	for (var i = 0; i < d.length; d++) {
-		stringToSend += JSON.stringify(d[i]);
+	for (var i = 0; i < d.length; i++) {
+		stringToSend += (JSON.stringify(d[i]) + ";");
 	}
 	res.send(stringToSend);
 });

@@ -220,6 +220,17 @@ a:visited {
   border-radius: 0;
 }
 
+
+.note .note-actions-row {
+  display: none;
+}
+
+.note:focus-within .note-actions-row {
+  display: inline-block;
+}
+
+
+
 textarea {
   resize: none;
   overflow: hidden;

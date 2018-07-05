@@ -110,6 +110,9 @@ function initNote(note, notesType) {
 
     let actionsRow = note.children[2];
     initNoteButtons(notesType, actionsRow);
+    note.getElementsByClassName("entry")[0].fn = resizeTextarea;
+    note.getElementsByClassName("entry")[0].fn();
+    note.getElementsByClassName("entry")[0].fn = null;
 }
 
 function ready(fn) {
@@ -121,6 +124,7 @@ function ready(fn) {
 }
 
 function resizeTextarea () {
+    console.log(this);
     let html = document.documentElement;
     if(html.clientHeight - this.scrollHeight < 200) {
         this.style.height = html.clientHeight-200+"px";

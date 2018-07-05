@@ -27,11 +27,11 @@ function initNewNote() {
         let newTitle = newNote.getElementsByClassName("title")[0];
         let newEntry = newNote.getElementsByClassName("entry")[0];
 
-        let noteStr = createNote(newTitle.value, newEntry.value, nextId);
+        let noteStr = createNote(newTitle.value, newEntry.value, nextId, noteButtons("notes"));
         notes.insertAdjacentHTML("beforeend", noteStr);
 
         let note = document.getElementById("note#" + nextId++);
-        initNote(note);
+        initNote(note, "notes");
         saveNote(note);
 
         newTitle.value = "";
@@ -40,17 +40,66 @@ function initNewNote() {
     });
 }
 
-function initNote(note) {
+function initNoteButtons(type, actionsRow) {
+    switch (type) {
+        case ("notes"):
+            actionsRow.getElementsByClassName("save-button")[0].addEventListener("click", function(event) {
+                let note = event.target.parentElement.parentElement;
+                saveNote(note);
+            });
+            actionsRow.getElementsByClassName("delete-button")[0].addEventListener("click", function(event) {
+                let note = event.target.parentElement.parentElement;
+                let id = note.id.replace("note#", "");
+                note.parentElement.removeChild(note);
+                actionButtonHandler(id, "deleteNote");
+            });
+            actionsRow.getElementsByClassName("archive-button")[0].addEventListener("click", function(event) {
+                let note = event.target.parentElement.parentElement;
+                let id = note.id.replace("note#", "");
+                note.parentElement.removeChild(note);
+                actionButtonHandler(id, "archiveNote");
+            });
+            break;
+        case ("trash"):
+            actionsRow.getElementsByClassName("restore-button")[0].addEventListener("click", function(event) {
+                let note = event.target.parentElement.parentElement;
+                let id = note.id.replace("note#", "");
+                note.parentElement.removeChild(note);
+                actionButtonHandler(id, "restoreNote");
+            });
+            actionsRow.getElementsByClassName("delete-button")[0].addEventListener("click", function(event) {
+                let note = event.target.parentElement.parentElement;
+                let id = note.id.replace("note#", "");
+                note.parentElement.removeChild(note);
+                actionButtonHandler(id, "deleteFromTrash");
+            });
+            break;
+        case ("archive"):
+            actionsRow.getElementsByClassName("unarchive-button")[0].addEventListener("click", function(event) {
+                let note = event.target.parentElement.parentElement;
+                let id = note.id.replace("note#", "");
+                note.parentElement.removeChild(note);
+                actionButtonHandler(id, "unArchiveNote");
+            });
+            actionsRow.getElementsByClassName("delete-button")[0].addEventListener("click", function(event) {
+                let note = event.target.parentElement.parentElement;
+                let id = note.id.replace("note#", "");
+                note.parentElement.removeChild(note);
+                actionButtonHandler(id, "deleteArchived");
+            });
+            break;
+        default:
+            console.log(type);
+            break;
+    }
+}
+
+function initNote(note, notesType) {
     let entry = note.children[1];
     entry.addEventListener ("input", resizeTextarea);
 
     let actionsRow = note.children[2];
-    actionsRow.getElementsByClassName("save-button")[0].addEventListener("click", function(event) {
-        let note = event.target.parentElement.parentElement;
-        saveNote(note);
-    });
-    actionsRow.getElementsByClassName("delete-button")[0].addEventListener("click", deleteNote);
-    actionsRow.getElementsByClassName("archive-button")[0].addEventListener("click", archiveNote);
+    initNoteButtons(notesType, actionsRow);
 }
 
 function ready(fn) {
@@ -87,9 +136,18 @@ function saveNote(note){
     sendAjaxPostRequest("saveNote", JSON.stringify(params), postCallback);
 }
 
+function actionButtonHandler (noteId, action) {
+    sendAjaxPostRequest(action, JSON.stringify({"id": noteId}), postCallback);
+}
+
 function deleteNote(event){
     let id = event.target.parentElement.parentElement.id.replace("note#", "");
     sendAjaxPostRequest("deleteNote", JSON.stringify({"id":id}), postCallback);
+}
+
+function restoreNote(event){
+    let id = event.target.parentElement.parentElement.id.replace("note#", "");
+    sendAjaxPostRequest("restoreNote", JSON.stringify({"id":id}), postCallback);
 }
 
 function archiveNote(event){
@@ -97,24 +155,55 @@ function archiveNote(event){
     sendAjaxPostRequest("archiveNote", JSON.stringify({"id":id}), postCallback);
 }
 
+function unArchiveNote(event){
+    let id = event.target.parentElement.parentElement.id.replace("note#", "");
+    sendAjaxPostRequest("unArchiveNote", JSON.stringify({"id":id}), postCallback);
+}
+
 ready(initSidebar);
 ready(initNewNote);
 
-function getCallback(dataStr) {
+function noteButtons(type) {
+    let buttons = [];
+    switch (type) {
+        case ("notes"):
+            buttons[0] = "Save";
+            buttons[1] = "Discard";
+            buttons[2] = "Archive";
+            buttons[3] = "Delete";
+            break;
+        case ("trash"):
+            buttons[0] = "";
+            buttons[1] = "";
+            buttons[2] = "Restore";
+            buttons[3] = "Delete";
+            break;
+        case ("archive"):
+            buttons[0] = "";
+            buttons[1] = "";
+            buttons[2] = "Unarchive";
+            buttons[3] = "Delete";
+            break;
+    }
+    return buttons;
+}
+
+function getCallback(dataStr, reqNotesType) {
     let notesElem = document.getElementById("notes");
     // load new notes
     let data = dataStr.split(";");
     let notesStr = "";
     for (let i = 0; i < data.length; i++) {
-        if (data[i] === "") break;
+        if (data[i] == "") break;
         let noteJson = JSON.parse(data[i]);
-        notesStr += createNote(noteJson["title"], noteJson["text"], noteJson["id"]);
+        let buttons = noteButtons(reqNotesType);
+        notesStr += createNote(noteJson["title"], noteJson["text"], noteJson["id"], buttons);
     }
     notesElem.insertAdjacentHTML("beforeend", notesStr);
 
     let notes = notesElem.getElementsByClassName("note");
     for (let i = 0; i < notes.length; i++) {
-        initNote(notes[i]);
+        initNote(notes[i], reqNotesType);
     }
 }
 
@@ -153,7 +242,7 @@ function sendAjaxRequest(url, callback) {
         if (request.status >= 200 && request.status < 400) {
             // Success!
             var data = request.responseText;
-            callback(data);
+            callback(data, url.split("=")[1]);
         } else {
             // We reached our target server, but it returned an error
             console.log("Server Error");

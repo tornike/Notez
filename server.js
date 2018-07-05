@@ -38,37 +38,40 @@ app.post("/saveNote", function(req, res) {
 
 function transferNote(from, to, id) {
 	for (var i = 0; i < data[from].length; i++) {
-		const elem = data[from][i];
+		var elem = data[from][i];
 		if (elem["id"] == id) {
 			data[to].push(data[from].splice(i, 1)[0]);
 			break;
 		}
 	}
-	console.log(data[to]);
 }
 
 app.post("/archiveNote", function(req, res) {
-	console.log("archive", req.body);
+	console.log("transfer from notes to archive", req.body);
 	transferNote("notes", "archive", req.body.id);
 	res.send(JSON.stringify({"success":true}));
 });
 
-app.post("/deleteNote", function(req, res) {
-	transferNote("notes", "trash", req.body.id);
-	res.send(JSON.stringify({"success":true}));
-});
-
-app.post("/bringBackArchieved", function(req, res) {
+app.post("/unArchiveNote", function(req, res) {
+	console.log("transfer from archive to notes", req.body);
 	transferNote("archive", "notes", req.body.id);
 	res.send(JSON.stringify({"success":true}));
 });
 
-app.post("/deleteArchieved", function(req, res) {
+app.post("/deleteArchived", function(req, res) {
+	console.log("transfer from archive to trash", req.body);
 	transferNote("archive", "trash", req.body.id);
 	res.send(JSON.stringify({"success":true}));
 });
 
-app.post("/bringBackDeleted", function(req, res) {
+app.post("/deleteNote", function(req, res) {
+	console.log("transfer from notes to trash", req.body);
+	transferNote("notes", "trash", req.body.id);
+	res.send(JSON.stringify({"success":true}));
+});
+
+app.post("/restoreNote", function(req, res) {
+	console.log("transfer from trash to notes", req.body);
 	transferNote("trash", "notes", req.body.id);
 	res.send(JSON.stringify({"success":true}));
 });
@@ -79,10 +82,11 @@ app.post("/archiveDeleted", function(req, res) {
 });
 
 app.post("/deleteFromTrash", function(req, res) {
+	console.log("delete from trash", req.body);
 	for (var i = 0; i < data["trash"].length; i++) {
 		const element = data["trash"][i];
-		if(element["id"] == id){
-			data["trash"].pop(i);
+		if(element["id"] == req.body.id){
+			data["trash"].splice(i, 1);
 		}
 	}
 	res.send(JSON.stringify({"success":true}));

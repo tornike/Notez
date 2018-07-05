@@ -124,7 +124,6 @@ function ready(fn) {
 }
 
 function resizeTextarea () {
-    console.log(this);
     let html = document.documentElement;
     if(html.clientHeight - this.scrollHeight < 200) {
         this.style.height = html.clientHeight-200+"px";

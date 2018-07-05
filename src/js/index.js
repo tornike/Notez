@@ -37,6 +37,7 @@ function initNewNote() {
         newTitle.value = "";
         newEntry.value = "";
         newEntry.style.height = "45px";
+        saveButton.blur();
     });
 }
 

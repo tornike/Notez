@@ -166,7 +166,7 @@ a:visited {
 
 
 
-.discard-button, .save-button, .delete-button, .archive-button {
+.discard-button, .save-button, .delete-button, .archive-button, .restore-button {
   float: right;
   background-color: white;
   color: black;
@@ -178,11 +178,11 @@ a:visited {
   border-radius: 1px;
 }
 
-.discard-button:hover, .save-button:hover, .delete-button:hover, .archive-button:hover{
+.discard-button:hover, .save-button:hover, .delete-button:hover, .archive-button:hover, .restore-button:hover {
   background-color: lavender;
 }
 
-.discard-button:active, .save-button:active, .delete-button:active, .archive-button:active {
+.discard-button:active, .save-button:active, .delete-button:active, .archive-button:active, .restore-button:active {
   background-color: lightgray;
 }
 
@@ -226,4 +226,12 @@ textarea {
   min-height: 45px;
   height: 45px;
   margin: 0;
+}
+
+
+
+
+
+.-button {
+  display: none;
 }

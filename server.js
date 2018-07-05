@@ -31,9 +31,21 @@ app.get("/getNotes", function(req, res) {
 });
 
 app.post("/saveNote", function(req, res) {
+	var arr = data["notes"];
+	var isFound = false;
+	for (var i = 0; i < arr.length; i++) {
+		if(arr[i].id == req.body.id){
+			arr[i] = req.body;
+			isFound = true;
+			break;
+		}
+	}
+	if(!isFound){
+		data["notes"].push(req.body);
+	}
+
 	console.log("save", req.body);
-	data["notes"].push(req.body);
-	res.send(JSON.stringify({"success":true}));
+	res.send(JSON.stringify({"success": true}));
 });
 
 function transferNote(from, to, id) {

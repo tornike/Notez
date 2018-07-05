@@ -180,22 +180,19 @@ function noteButtons(type) {
     let buttons = [];
     switch (type) {
         case ("notes"):
-            buttons[0] = "Save";
-            buttons[1] = "Discard";
-            buttons[2] = "Archive";
-            buttons[3] = "Delete";
+            buttons[2] = "Save";
+            buttons[1] = "Archive";
+            buttons[0] = "Delete";
             break;
         case ("trash"):
-            buttons[0] = "";
-            buttons[1] = "";
-            buttons[2] = "Restore";
-            buttons[3] = "Delete";
+            buttons[2] = "";
+            buttons[1] = "Restore";
+            buttons[0] = "Delete";
             break;
         case ("archive"):
-            buttons[0] = "";
-            buttons[1] = "";
-            buttons[2] = "Unarchive";
-            buttons[3] = "Delete";
+            buttons[2] = "";
+            buttons[1] = "Unarchive";
+            buttons[0] = "Delete";
             break;
     }
     return buttons;
@@ -290,8 +287,8 @@ Router.add("trash", function(){
     document.getElementById("notes").innerHTML = "";
     sendAjaxRequest("/getNotes?param=trash", getCallback);
 });
-Router.navigate("notez");
 Router.listen();
+Router.navigate("notez");
 
 function searchNotes(){
     let searchBar = document.getElementsByClassName("search")[0].children[0];

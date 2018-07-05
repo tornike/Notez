@@ -8,7 +8,6 @@ function createNote(title, text, id, buttons) {
 				<button class="${buttons[0].toLowerCase()}-button">${buttons[0]}</button>
 				<button class="${buttons[1].toLowerCase()}-button">${buttons[1]}</button>
 				<button class="${buttons[2].toLowerCase()}-button">${buttons[2]}</button>
-				<button class="${buttons[3].toLowerCase()}-button">${buttons[3]}</button>
 			</div>
       	</li>`;
 

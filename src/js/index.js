@@ -15,30 +15,39 @@ function initSidebar() {
     });
 }
 
+function createNewNote() {
+    let newNote = document.getElementById("new-note");
+    let newTitle = newNote.getElementsByClassName("title")[0];
+    let newEntry = newNote.getElementsByClassName("entry")[0];
+    let saveButton = newNote.getElementsByClassName("save-button")[0];
+
+    let noteStr = createNote(newTitle.value, newEntry.value, nextId, noteButtons("notes"));
+    notes.insertAdjacentHTML("beforeend", noteStr);
+
+    let note = document.getElementById("note#" + nextId++);
+    initNote(note, "notes");
+    saveNote(note);
+
+    newTitle.value = "";
+    newEntry.value = "";
+    newEntry.style.height = "45px";
+    saveButton.blur();
+}
+
 function initNewNote() {
     let newNote = document.getElementById("new-note");
-
-    let saveButton = newNote.getElementsByClassName("save-button")[0];
     let newEntry = newNote.getElementsByClassName("entry")[0];
     newEntry.addEventListener("input", resizeTextarea);
-
-    saveButton.addEventListener("click", function() {
-        let newNote = document.getElementById("new-note");
-        let newTitle = newNote.getElementsByClassName("title")[0];
-        let newEntry = newNote.getElementsByClassName("entry")[0];
-
-        let noteStr = createNote(newTitle.value, newEntry.value, nextId, noteButtons("notes"));
-        notes.insertAdjacentHTML("beforeend", noteStr);
-
-        let note = document.getElementById("note#" + nextId++);
-        initNote(note, "notes");
-        saveNote(note);
-
-        newTitle.value = "";
-        newEntry.value = "";
-        newEntry.style.height = "45px";
-        saveButton.blur();
+    let newTitle = newNote.getElementsByClassName("title")[0];
+    newNote.addEventListener("focusout", function() {
+        if (window.getComputedStyle(newTitle).display == "none" &&
+            newTitle.value != "" && newEntry.value != "") 
+        { // newNote lost focus.
+            createNewNote();
+        }
     });
+    let saveButton = newNote.getElementsByClassName("save-button")[0];
+    saveButton.addEventListener("click", createNewNote);
 }
 
 function initNoteButtons(type, actionsRow) {

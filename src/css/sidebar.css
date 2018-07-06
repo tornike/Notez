@@ -2,6 +2,8 @@
   width: 15%;
   min-width: 100px;
   float: left;
+  position: fixed;
+  margin-top: 60px;
 }
 
 ul {

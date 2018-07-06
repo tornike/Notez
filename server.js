@@ -28,7 +28,6 @@ app.get("/getNotes", function(req, res) {
 	for (var i = 0; i < d.length; i++) {
 		stringToSend += (JSON.stringify(d[i]) + ";");
 	}
-	console.log(stringToSend);
 	res.send(stringToSend);
 });
 

@@ -57,7 +57,17 @@ function actionButtonHandler (note, action) {
 }
 
 function initNoteButtons(type, actionsRow) {
-    let buttons = 0;
+
+    let colors = actionsRow.getElementsByClassName("color");
+    for(let i = 0; i < colors.length; i++){
+        let colorButton = colors[i];
+        colorButton.addEventListener("click", function(event) {
+            let noteElem = colorButton.parentElement.parentElement.parentElement.parentElement.parentElement;
+            noteElem.className = noteElem.className.split(" ")[0] + " " + colorButton.className.split(" ")[1];
+            noteElem.children[1].focus();
+        });
+    }
+    let buttons = 1;
     switch (type) {
         case ("notes"):
             actionsRow.getElementsByClassName("save-button")[0].addEventListener("click", function(event) {
@@ -72,7 +82,7 @@ function initNoteButtons(type, actionsRow) {
                 let note = event.target.parentElement.parentElement;
                 actionButtonHandler(note, "archiveNote");
             });
-            buttons = 3;
+            buttons += 3;
             break;
         case ("trash"):
             actionsRow.getElementsByClassName("restore-button")[0].addEventListener("click", function(event) {
@@ -83,7 +93,7 @@ function initNoteButtons(type, actionsRow) {
                 let note = event.target.parentElement.parentElement;
                 actionButtonHandler(note, "deleteFromTrash");
             });
-            buttons = 2;
+            buttons += 2;
             break;
         case ("archive"):
             actionsRow.getElementsByClassName("unarchive-button")[0].addEventListener("click", function(event) {
@@ -94,7 +104,7 @@ function initNoteButtons(type, actionsRow) {
                 let note = event.target.parentElement.parentElement;
                 actionButtonHandler(note, "deleteArchived");
             });
-            buttons = 2;
+            buttons += 2;
             break;
         default:
             console.log(type);
@@ -146,11 +156,13 @@ function saveNote(note) {
     let title = note.getElementsByClassName("title")[0].value;
     let text = note.getElementsByClassName("entry")[0].value;
     let id = note.id.replace("note#", "");
+    let color = note.className;
 
     params = {};
     params["title"] = title;
     params["text"] = text;
     params["id"] = id;
+    params["color"] = color;
 
     sendAjaxPostRequest("saveNote", JSON.stringify(params), postCallback);
 }
@@ -189,7 +201,7 @@ function getCallback(dataStr, reqNotesType) {
         if (data[i] == "") break;
         let noteJson = JSON.parse(data[i]);
         let buttons = noteButtons(reqNotesType);
-        notesStr += createNote(noteJson["title"], noteJson["text"], noteJson["id"], buttons);
+        notesStr += createNote(noteJson["title"], noteJson["text"], noteJson["id"], buttons, noteJson["color"]);
     }
     notesElem.insertAdjacentHTML("beforeend", notesStr);
 

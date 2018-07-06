@@ -82,7 +82,7 @@ textarea {
   float: left;
 }
 
-#sidebar ul {
+ul {
   padding-left: 0;
   list-style-type: none;
   margin: 0;
@@ -92,6 +92,7 @@ textarea {
   margin: 0;
   font-size: 17px;
 }
+
 
 #sidebar li:hover {
   background-color: #7a77778e;
@@ -135,11 +136,13 @@ textarea {
 
 .note {
   margin-top: 10px;
+  background-color: white;
 }
 
 .title {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
+  font-weight: bold;
 }
 
 .note-actions-row {
@@ -156,6 +159,7 @@ textarea {
   border: 1px solid #ccc;
   box-sizing: border-box;
   outline: none;
+  background-color: inherit;
   font-size: 18px;
 }
 
@@ -168,6 +172,82 @@ textarea {
 .title, .entry {
   border-bottom: none;  
 }
+
+
+
+.unarchive-button, .save-button, .delete-button, .archive-button, .restore-button {
+  width: 20%;
+  background-color: inherit;
+  color: black;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px 15px;
+  outline: none;
+  border-radius: 1px;
+}
+
+.dropbtn {
+  width: 20%;
+  background-color: inherit;
+  color: black;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px 0;
+  outline: none;
+  border-radius: 1px;
+  float: left;
+  text-align: center;
+  position: relative;
+}
+
+.color{
+  color: black;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px 15px;
+  outline: none;
+  border-radius: 1px;
+  width: 90px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.white{
+  background-color: white;
+}
+
+.red {
+  background-color: rgb(239, 48, 17);
+}
+
+.yellow {
+  background-color: rgb(241, 204, 41);
+}
+
+.green {
+  background-color: #0ebd0e;
+}
+
+.blue {
+  background-color: rgb(43, 169, 228);
+}
+
+.violet {
+  background-color: rgb(133, 38, 221);
+}
+
+.unarchive-button:hover, .save-button:hover, .delete-button:hover, .archive-button:hover, .restore-button:hover, .dropbtn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.unarchive-button:active, .save-button:active, .delete-button:active, .archive-button:active, .restore-button:active, .dropbtn:active {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+
 
 #new-note .entry {
   border: 1px solid #ccc;
@@ -224,28 +304,8 @@ textarea {
   border-radius: 3px;
 }
 
-.unarchive-button, .save-button, .delete-button, .archive-button, .restore-button {
-  width: 20%;
-  background-color: white;
-  color: black;
-  border: none;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 10px 15px;
-  outline: none;
-  border-radius: 1px;
-}
-
 .-button {
   display: none;
-}
-
-.unarchive-button:hover, .save-button:hover, .delete-button:hover, .archive-button:hover, .restore-button:hover {
-  background-color: lavender;
-}
-
-.unarchive-button:active, .save-button:active, .delete-button:active, .archive-button:active, .restore-button:active {
-  background-color: lightgray;
 }
 
 .pad {
@@ -253,3 +313,19 @@ textarea {
   float: left;
 }
 
+.dropdown {
+  width: 20%;
+  position: relative;
+}
+
+.colors {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  z-index: 1;
+  top: 34px;
+}
+
+.dropbtn:hover .colors {
+  display: block;
+}

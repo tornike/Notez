@@ -22,7 +22,7 @@ function createNewNote() {
     let newEntry = newNote.getElementsByClassName("entry")[0];
 
     let noteStr = createNote(newTitle.value, newEntry.value, nextId, noteButtons("notes"));
-    notes.insertAdjacentHTML("beforeend", noteStr);
+    notes.insertAdjacentHTML("afterbegin", noteStr);
 
     let note = document.getElementById("note#" + nextId++);
     initNote(note, "notes");
@@ -197,13 +197,13 @@ function getCallback(dataStr, reqNotesType) {
     // load new notes
     let data = dataStr.split(";");
     let notesStr = "";
-    for (let i = 0; i < data.length; i++) {
+    for (let i = data.length - 2; i >= 0; i = i - 1) {
         if (data[i] == "") break;
         let noteJson = JSON.parse(data[i]);
         let buttons = noteButtons(reqNotesType);
         notesStr += createNote(noteJson["title"], noteJson["text"], noteJson["id"], buttons, noteJson["color"]);
     }
-    notesElem.insertAdjacentHTML("beforeend", notesStr);
+    notesElem.insertAdjacentHTML("afterbegin", notesStr);
 
     let notes = notesElem.getElementsByClassName("note");
     for (let i = 0; i < notes.length; i++) {

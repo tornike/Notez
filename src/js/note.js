@@ -15,7 +15,7 @@ function createNote(title, text, id, buttons, clas = "note") {
 						</li>
 						<li>
 							<button class="color red">
-								Red
+								Orange
 							</button>
 						</li>
 						<li>

@@ -1,6 +1,48 @@
 let createNote = require("./note.js");
+let Router = require("./router.js").Router;
 
 let nextId = 0;
+
+function ready(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn);
+    }
+}
+
+function initRouter() {
+    Router.config({mode: "hash"});
+    Router.add("notez", function() {
+        document.getElementById("new-note").style.display = "";
+        document.getElementById("notes").innerHTML = "";
+        sendAjaxRequest("/getNotes?param=notes", getCallback);
+    });
+    Router.add("reminders", function() {
+        document.getElementById("new-note").style.display = "none";
+        document.getElementById("notes").innerHTML = "";
+        sendAjaxRequest("/getNotes?param=reminders", getCallback);
+    });
+    Router.add("archive", function() {
+        document.getElementById("new-note").style.display = "none";
+        document.getElementById("notes").innerHTML = "";
+        sendAjaxRequest("/getNotes?param=archive", getCallback);
+    });
+    Router.add("trash", function() {
+        document.getElementById("new-note").style.display = "none";
+        document.getElementById("notes").innerHTML = "";
+        sendAjaxRequest("/getNotes?param=trash", getCallback);
+    });
+    Router.listen();
+    Router.navigate("notez");
+}
+
+function init() {
+    initSidebar();
+    initNewNote();
+    searchNotes();
+    initRouter();
+}
 
 function initSidebar() {
     let sidebarButton = document.getElementById("sidebar-button");
@@ -131,14 +173,6 @@ function initNote(note, notesType) {
     note.getElementsByClassName("entry")[0].fn = null;
 }
 
-function ready(fn) {
-    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
-        fn();
-    } else {
-        document.addEventListener('DOMContentLoaded', fn);
-    }
-}
-
 function resizeTextarea () {
     let html = document.documentElement;
     if(html.clientHeight - this.scrollHeight < 200) {
@@ -166,9 +200,6 @@ function saveNote(note) {
 
     sendAjaxPostRequest("saveNote", JSON.stringify(params), postCallback);
 }
-
-ready(initSidebar);
-ready(initNewNote);
 
 function noteButtons(type) {
     let buttons = [];
@@ -212,7 +243,9 @@ function getCallback(dataStr, reqNotesType) {
 }
 
 function postCallback(data) {
-    console.log("post: " + data);
+    /*
+        Something
+    */
 }
 
 function sendAjaxPostRequest(url, params, callback) {
@@ -260,30 +293,6 @@ function sendAjaxRequest(url, callback) {
 	request.send();
 }
 
-Router.config({mode: "hash"});
-Router.add("notez", function() {
-    document.getElementById("new-note").style.display = "";
-    document.getElementById("notes").innerHTML = "";
-    sendAjaxRequest("/getNotes?param=notes", getCallback);
-});
-Router.add("reminders", function() {
-    document.getElementById("new-note").style.display = "none";
-    document.getElementById("notes").innerHTML = "";
-    sendAjaxRequest("/getNotes?param=reminders", getCallback);
-});
-Router.add("archive", function() {
-    document.getElementById("new-note").style.display = "none";
-    document.getElementById("notes").innerHTML = "";
-    sendAjaxRequest("/getNotes?param=archive", getCallback);
-});
-Router.add("trash", function() {
-    document.getElementById("new-note").style.display = "none";
-    document.getElementById("notes").innerHTML = "";
-    sendAjaxRequest("/getNotes?param=trash", getCallback);
-});
-Router.listen();
-Router.navigate("notez");
-
 function searchNotes() {
     let searchBar = document.getElementsByClassName("search")[0].children[0];
     searchBar.addEventListener("keyup", function() {
@@ -305,5 +314,5 @@ function searchNotes() {
     });
 }
 
-ready(searchNotes);
 
+ready(init);

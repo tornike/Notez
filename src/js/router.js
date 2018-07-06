@@ -82,3 +82,7 @@ var Router = {
         return this;
     }
 }
+
+module.exports = {
+    Router : Router
+};

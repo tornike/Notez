@@ -50,10 +50,12 @@ function initSidebar() {
         let sidebar = document.getElementById("sidebar");
         if (sidebar.style.display == "none") {
             sidebar.style.display = "";
-            document.getElementById("main-area").style.width = "85%";
+            document.getElementById("main-area").style.width = "calc(100% - 100px)";
+            document.getElementById("main-area").style.marginLeft = "90px";
         } else {
             sidebar.style.display = "none";
-            document.getElementById("main-area").style.width = "100%";
+            document.getElementById("main-area").style.width = "calc(100% - 20px)";
+            document.getElementById("main-area").style.marginLeft = "0";
         }
     });
 }

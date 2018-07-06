@@ -1,0 +1,15 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #e7e2e3f6;
+    font-family: "Georgia", sans-serif;
+  }
+  
+  textarea {
+    font-family: "Georgia", sans-serif;
+    resize: none;
+    overflow: hidden;
+    min-height: 45px;
+    height: 45px;
+    margin: 0;
+  }

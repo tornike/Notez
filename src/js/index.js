@@ -1,16 +1,17 @@
 let createNote = require("./note.js");
+
 let nextId = 0;
 
 function initSidebar() {
     let sidebarButton = document.getElementById("sidebar-button");
     sidebarButton.addEventListener("click", function() {
         let sidebar = document.getElementById("sidebar");
-        if (sidebar.style.display == 'none') {
-            sidebar.style.display = '';
-            document.getElementById('main-area').style.width = "calc(100% - 250px)";
+        if (sidebar.style.display == "none") {
+            sidebar.style.display = "";
+            document.getElementById("main-area").style.width = "calc(100% - 250px)";
         } else {
-            sidebar.style.display = 'none';
-            document.getElementById('main-area').style.width = "100%";
+            sidebar.style.display = "none";
+            document.getElementById("main-area").style.width = "100%";
         }
     });
 }
@@ -19,7 +20,6 @@ function createNewNote() {
     let newNote = document.getElementById("new-note");
     let newTitle = newNote.getElementsByClassName("title")[0];
     let newEntry = newNote.getElementsByClassName("entry")[0];
-    let saveButton = newNote.getElementsByClassName("save-button")[0];
 
     let noteStr = createNote(newTitle.value, newEntry.value, nextId, noteButtons("notes"));
     notes.insertAdjacentHTML("beforeend", noteStr);
@@ -31,7 +31,7 @@ function createNewNote() {
     newTitle.value = "";
     newEntry.value = "";
     newEntry.style.height = "45px";
-    saveButton.blur();
+    newNote.getElementsByClassName("save-button")[0].blur();
 }
 
 function initNewNote() {
@@ -41,13 +41,19 @@ function initNewNote() {
     let newTitle = newNote.getElementsByClassName("title")[0];
     newNote.addEventListener("focusout", function() {
         if (window.getComputedStyle(newTitle).display == "none" &&
-            newTitle.value != "" && newEntry.value != "") 
+            (newTitle.value != "" || newEntry.value != ""))
         { // newNote lost focus.
             createNewNote();
         }
     });
     let saveButton = newNote.getElementsByClassName("save-button")[0];
     saveButton.addEventListener("click", createNewNote);
+}
+
+function actionButtonHandler (note, action) {
+    let id = note.id.replace("note#", "");
+    note.parentElement.removeChild(note);
+    sendAjaxPostRequest(action, JSON.stringify({"id": id}), postCallback);
 }
 
 function initNoteButtons(type, actionsRow) {
@@ -64,43 +70,31 @@ function initNoteButtons(type, actionsRow) {
             });
             actionsRow.getElementsByClassName("delete-button")[0].addEventListener("click", function(event) {
                 let note = event.target.parentElement.parentElement;
-                let id = note.id.replace("note#", "");
-                note.parentElement.removeChild(note);
-                actionButtonHandler(id, "deleteNote");
+                actionButtonHandler(note, "deleteNote");
             });
             actionsRow.getElementsByClassName("archive-button")[0].addEventListener("click", function(event) {
                 let note = event.target.parentElement.parentElement;
-                let id = note.id.replace("note#", "");
-                note.parentElement.removeChild(note);
-                actionButtonHandler(id, "archiveNote");
+                actionButtonHandler(note, "archiveNote");
             });
             break;
         case ("trash"):
             actionsRow.getElementsByClassName("restore-button")[0].addEventListener("click", function(event) {
                 let note = event.target.parentElement.parentElement;
-                let id = note.id.replace("note#", "");
-                note.parentElement.removeChild(note);
-                actionButtonHandler(id, "restoreNote");
+                actionButtonHandler(note, "restoreNote");
             });
             actionsRow.getElementsByClassName("delete-button")[0].addEventListener("click", function(event) {
                 let note = event.target.parentElement.parentElement;
-                let id = note.id.replace("note#", "");
-                note.parentElement.removeChild(note);
-                actionButtonHandler(id, "deleteFromTrash");
+                actionButtonHandler(note, "deleteFromTrash");
             });
             break;
         case ("archive"):
             actionsRow.getElementsByClassName("unarchive-button")[0].addEventListener("click", function(event) {
                 let note = event.target.parentElement.parentElement;
-                let id = note.id.replace("note#", "");
-                note.parentElement.removeChild(note);
-                actionButtonHandler(id, "unArchiveNote");
+                actionButtonHandler(note, "unArchiveNote");
             });
             actionsRow.getElementsByClassName("delete-button")[0].addEventListener("click", function(event) {
                 let note = event.target.parentElement.parentElement;
-                let id = note.id.replace("note#", "");
-                note.parentElement.removeChild(note);
-                actionButtonHandler(id, "deleteArchived");
+                actionButtonHandler(note, "deleteArchived");
             });
             break;
         default:
@@ -114,6 +108,13 @@ function initNote(note, notesType) {
     entry.addEventListener ("input", resizeTextarea);
 
     let actionsRow = note.children[2];
+    if (notesType == "notes") {
+        note.addEventListener("focusout", function() {
+            if (window.getComputedStyle(actionsRow).display == "none") { // note lost focus.
+                saveNote(note);
+            }
+        });
+    }
     initNoteButtons(notesType, actionsRow);
     note.getElementsByClassName("entry")[0].fn = resizeTextarea;
     note.getElementsByClassName("entry")[0].fn();
@@ -141,7 +142,7 @@ function resizeTextarea () {
     }
 }
 
-function saveNote(note){
+function saveNote(note) {
     let title = note.getElementsByClassName("title")[0].value;
     let text = note.getElementsByClassName("entry")[0].value;
     let id = note.id.replace("note#", "");
@@ -152,30 +153,6 @@ function saveNote(note){
     params["id"] = id;
 
     sendAjaxPostRequest("saveNote", JSON.stringify(params), postCallback);
-}
-
-function actionButtonHandler (noteId, action) {
-    sendAjaxPostRequest(action, JSON.stringify({"id": noteId}), postCallback);
-}
-
-function deleteNote(event){
-    let id = event.target.parentElement.parentElement.id.replace("note#", "");
-    sendAjaxPostRequest("deleteNote", JSON.stringify({"id":id}), postCallback);
-}
-
-function restoreNote(event){
-    let id = event.target.parentElement.parentElement.id.replace("note#", "");
-    sendAjaxPostRequest("restoreNote", JSON.stringify({"id":id}), postCallback);
-}
-
-function archiveNote(event){
-    let id = event.target.parentElement.parentElement.id.replace("note#", "");
-    sendAjaxPostRequest("archiveNote", JSON.stringify({"id":id}), postCallback);
-}
-
-function unArchiveNote(event){
-    let id = event.target.parentElement.parentElement.id.replace("note#", "");
-    sendAjaxPostRequest("unArchiveNote", JSON.stringify({"id":id}), postCallback);
 }
 
 ready(initSidebar);
@@ -226,7 +203,7 @@ function postCallback(data) {
     console.log("post: " + data);
 }
 
-function sendAjaxPostRequest(url, params, callback){
+function sendAjaxPostRequest(url, params, callback) {
     var request = new XMLHttpRequest();
     request.open('POST', url, true);
     request.setRequestHeader("Content-type", "application/json");
@@ -264,7 +241,7 @@ function sendAjaxRequest(url, callback) {
         }
     };
 
-    request.onerror = function(){
+    request.onerror = function() {
         // There was a connection error of some sort
         console.log("error");
     };
@@ -272,22 +249,22 @@ function sendAjaxRequest(url, callback) {
 }
 
 Router.config({mode: "hash"});
-Router.add("notez", function(){
+Router.add("notez", function() {
     document.getElementById("new-note").style.display = "";
     document.getElementById("notes").innerHTML = "";
     sendAjaxRequest("/getNotes?param=notes", getCallback);
 });
-Router.add("reminders", function(){
+Router.add("reminders", function() {
     document.getElementById("new-note").style.display = "none";
     document.getElementById("notes").innerHTML = "";
     sendAjaxRequest("/getNotes?param=reminders", getCallback);
 });
-Router.add("archive", function(){
+Router.add("archive", function() {
     document.getElementById("new-note").style.display = "none";
     document.getElementById("notes").innerHTML = "";
     sendAjaxRequest("/getNotes?param=archive", getCallback);
 });
-Router.add("trash", function(){
+Router.add("trash", function() {
     document.getElementById("new-note").style.display = "none";
     document.getElementById("notes").innerHTML = "";
     sendAjaxRequest("/getNotes?param=trash", getCallback);
@@ -295,7 +272,7 @@ Router.add("trash", function(){
 Router.listen();
 Router.navigate("notez");
 
-function searchNotes(){
+function searchNotes() {
     let searchBar = document.getElementsByClassName("search")[0].children[0];
     searchBar.addEventListener("keyup", function() {
         let filter, ul, li, title, entry, everything, i;

@@ -209,7 +209,7 @@ a:visited {
   border-radius: 3px;
 }
 
-#new-note .title, #new-note .note-actions-row {
+#new-note .title {
   display: none;
 }
 
@@ -234,6 +234,28 @@ a:visited {
   border-bottom: none;
   border-radius: 0;
 }
+
+
+.note .note-actions-row {
+  display: none;
+}
+
+.note:focus-within .note-actions-row {
+  display: inline-block;
+}
+
+.note:focus-within .entry {
+  display: inline-block;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0;
+}
+
+.note .entry {
+  border-bottom: 1px solid #ccc;
+  border-radius: 3px;
+}
+
 
 textarea {
   resize: none;

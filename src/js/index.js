@@ -51,6 +51,11 @@ function initNewNote() {
 }
 
 function initNoteButtons(type, actionsRow) {
+    let colorButton = actionsRow.getElementsByClassName("color")[0];
+    console.log(colorButton);
+    colorButton.addEventListener("change", function(event) {
+        colorButton.parentElement.parentElement.style.backgroundColor = colorButton.value;
+    });
     switch (type) {
         case ("notes"):
             actionsRow.getElementsByClassName("save-button")[0].addEventListener("click", function(event) {

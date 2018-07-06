@@ -129,6 +129,7 @@ a:visited {
 
 .note {
   margin-top: 5px;
+  background-color: white;
 }
 
 .title {
@@ -150,6 +151,7 @@ a:visited {
   border: 1px solid #ccc;
   box-sizing: border-box;
   outline: none;
+  background-color: inherit;
 
   font-size: 18px;
 }
@@ -168,7 +170,7 @@ a:visited {
 
 .unarchive-button, .save-button, .delete-button, .archive-button, .restore-button {
   float: right;
-  background-color: white;
+  background-color: inherit;
   color: black;
   border: none;
   font-size: 12px;
@@ -176,6 +178,19 @@ a:visited {
   padding: 10px 15px;
   outline: none;
   border-radius: 1px;
+}
+
+.color{
+  /* background-color: white; */
+  /* color: white; */
+  border: none;
+  /* padding: 5px 10px; */
+  padding: 0;
+  margin: 5px;
+  outline: none;
+  border-radius: 1px;
+  height: 25px;
+  width: 25px;
 }
 
 .unarchive-button:hover, .save-button:hover, .delete-button:hover, .archive-button:hover, .restore-button:hover {

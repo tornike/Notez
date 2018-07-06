@@ -6,6 +6,7 @@
   <title>Notez</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.png">
   <script src="router.js"></script>
   <script src="app.js"></script>
 </head>
@@ -15,13 +16,15 @@
     <button type="button" id="sidebar-button">
       <i class="fas fa-bars"></i>
     </button>
-    <div class="search">
-      <input type="text" placeholder="Search">
-      <button type="button">
-        <div class="search-button">
-          <i class="fas fa-search"></i>
-        </div>
-      </button>
+    <div class=search-container>
+      <div class="search">
+        <input type="text" placeholder="Search">
+        <button type="button">
+          <div class="search-button">
+            <i class="fas fa-search"></i>
+          </div>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -30,10 +33,6 @@
       <li>
         <div class="notes"></div>
         <a href="#notez">Notez</a>
-      </li>
-      <li>
-        <div class="reminders"></div>
-        <a href="#reminders">Reminders</a>
       </li>
       <li>
         <div class="archive"></div>
@@ -54,6 +53,7 @@
       <input type="text" class="title" placeholder="Title">
       <textarea class="entry" placeholder="Take a note..."></textarea>
       <div class="note-actions-row">
+        <div class="pad"></div>
         <button class="save-button">Save</button>
       </div>
     </div>

@@ -7,7 +7,15 @@ body {
 
 textarea {
   font-family: "Georgia", sans-serif;
+  resize: none;
+  overflow: hidden;
+  min-height: 45px;
+  height: 45px;
+  margin: 0;
 }
+
+
+/* HEADER */
 
 .header-content {
   width: 100%;
@@ -16,58 +24,61 @@ textarea {
 }
 
 #sidebar-button {
-  position: absolute;
   cursor: pointer;
+  height: 40px;
+  width: 40px;
+  border: none;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgb(75, 75, 75);
+  float: left;
+  padding: 0;
+  margin: 10px;
+}
+
+.search-container {
+  width: calc(100% - 60px);
+  height: 100%;
+  float: left;
 }
 
 .search {
-  width: 700px;
+  max-width: 640px;
   height: 40px;
-  margin: auto;
-  padding-top: 10px;
+  margin: 10px auto;
+  padding-right: 10px;
 }
 
 .search input {
-  width: 100%;
+  width: calc(100% - 40px - 5px);
   height: 100%;
   border: none;
-  border-radius: 3px;
+  border-radius: 3px 0 0 3px;
   padding: 0;
   padding-left: 5px;
   font-size: 1em;
+  float: left;
 }
 
 .search button {
-  width: 6%;
+  width: 40px;
   height: 100%;
   padding: 0;
-  position: relative;
-  top: -40px;
-  left: calc(100% - 5.3%);
   border: none;
-  border-radius: 3px;
+  border-radius: 0 3px 3px 0;
   cursor: pointer;
-  background: transparent;
+  background: white;
   color: rgb(75, 75, 75);
-
+  float: left;
 }
 
-#sidebar-button {
-  height: 40px;
-  width: 40px;
-  top: 10px;
-  left: 10px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.1);
-  color: rgb(75, 75, 75);
-}
 
+/* SIDEBAR */
 
 
 #sidebar {
-  width: 250px;
+  width: 15%;
+  min-width: 100px;
   float: left;
 }
 
@@ -82,53 +93,48 @@ textarea {
   font-size: 17px;
 }
 
-/* #sidebar li {
-  margin: 0;
-} */
-
 #sidebar li:hover {
   background-color: #7a77778e;
   cursor: pointer;
 }
 
-
-a {
+#sidebar a {
   color: rgb(75, 75, 75);
   display: inline-block;
   text-decoration: none;
   padding: 15px 0px 15px 15px;
   height: 100%;
   width: 100%;
-
 }
 
-a:visited {
+#sidebar a:visited {
   color: rgb(75, 75, 75);
 }
 
 
+/* NOTES */
 
 
 #main-area {
-  width: calc(100% - 250px);
+  width: 85%;
   float: left;
-
-  z-index: 2;
 }
 
 #main-area-center {
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   margin: auto;
+  padding-left: 20px;
 }
 
 #notes {
-  margin: auto;
+  margin: 0;
   padding: 0;
   list-style-type: none;
 }
 
 .note {
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .title {
@@ -146,11 +152,10 @@ a:visited {
 .entry, .title, .note-actions-row {
   width: 100%;
   padding: 12px 20px;
-  display: inline-block;
+  display: block;
   border: 1px solid #ccc;
   box-sizing: border-box;
   outline: none;
-
   font-size: 18px;
 }
 
@@ -164,31 +169,6 @@ a:visited {
   border-bottom: none;  
 }
 
-
-
-.unarchive-button, .save-button, .delete-button, .archive-button, .restore-button {
-  float: right;
-  background-color: white;
-  color: black;
-  border: none;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 10px 15px;
-  outline: none;
-  border-radius: 1px;
-}
-
-.unarchive-button:hover, .save-button:hover, .delete-button:hover, .archive-button:hover, .restore-button:hover {
-  background-color: lavender;
-}
-
-.unarchive-button:active, .save-button:active, .delete-button:active, .archive-button:active, .restore-button:active {
-  background-color: lightgray;
-}
-
-
-
-
 #new-note .entry {
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -198,8 +178,12 @@ a:visited {
   display: none;
 }
 
+#new-note .pad {
+  width: 79%;
+}
+
 #new-note:focus-within .title, #new-note:focus-within .note-actions-row {
-  display: inline-block;
+  display: block;
 }
 
 #new-note:focus-within .title {
@@ -220,17 +204,16 @@ a:visited {
   border-radius: 0;
 }
 
-
 .note .note-actions-row {
   display: none;
 }
 
 .note:focus-within .note-actions-row {
-  display: inline-block;
+  display: block;
 }
 
 .note:focus-within .entry {
-  display: inline-block;
+  display: block;
   border-top: none;
   border-bottom: none;
   border-radius: 0;
@@ -241,19 +224,32 @@ a:visited {
   border-radius: 3px;
 }
 
-
-textarea {
-  resize: none;
-  overflow: hidden;
-  min-height: 45px;
-  height: 45px;
-  margin: 0;
+.unarchive-button, .save-button, .delete-button, .archive-button, .restore-button {
+  width: 20%;
+  background-color: white;
+  color: black;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px 15px;
+  outline: none;
+  border-radius: 1px;
 }
-
-
-
-
 
 .-button {
   display: none;
 }
+
+.unarchive-button:hover, .save-button:hover, .delete-button:hover, .archive-button:hover, .restore-button:hover {
+  background-color: lavender;
+}
+
+.unarchive-button:active, .save-button:active, .delete-button:active, .archive-button:active, .restore-button:active {
+  background-color: lightgray;
+}
+
+.pad {
+  height: 1px;
+  float: left;
+}
+

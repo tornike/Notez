@@ -7,6 +7,7 @@ var data = {"notes": [], "trash": [], "archive": [], "reminders": []};
 app.use(express.static('src'));
 app.use(express.static('src/js'));
 app.use(express.static('dist'));
+app.use(express.static('icons'));
 
 const bodyParser = require("body-parser");
 
@@ -27,6 +28,7 @@ app.get("/getNotes", function(req, res) {
 	for (var i = 0; i < d.length; i++) {
 		stringToSend += (JSON.stringify(d[i]) + ";");
 	}
+	console.log(stringToSend);
 	res.send(stringToSend);
 });
 

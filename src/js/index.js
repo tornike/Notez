@@ -8,7 +8,7 @@ function initSidebar() {
         let sidebar = document.getElementById("sidebar");
         if (sidebar.style.display == "none") {
             sidebar.style.display = "";
-            document.getElementById("main-area").style.width = "calc(100% - 250px)";
+            document.getElementById("main-area").style.width = "85%";
         } else {
             sidebar.style.display = "none";
             document.getElementById("main-area").style.width = "100%";
@@ -57,6 +57,7 @@ function actionButtonHandler (note, action) {
 }
 
 function initNoteButtons(type, actionsRow) {
+    let buttons = 0;
     switch (type) {
         case ("notes"):
             actionsRow.getElementsByClassName("save-button")[0].addEventListener("click", function(event) {
@@ -71,6 +72,7 @@ function initNoteButtons(type, actionsRow) {
                 let note = event.target.parentElement.parentElement;
                 actionButtonHandler(note, "archiveNote");
             });
+            buttons = 3;
             break;
         case ("trash"):
             actionsRow.getElementsByClassName("restore-button")[0].addEventListener("click", function(event) {
@@ -81,6 +83,7 @@ function initNoteButtons(type, actionsRow) {
                 let note = event.target.parentElement.parentElement;
                 actionButtonHandler(note, "deleteFromTrash");
             });
+            buttons = 2;
             break;
         case ("archive"):
             actionsRow.getElementsByClassName("unarchive-button")[0].addEventListener("click", function(event) {
@@ -91,11 +94,13 @@ function initNoteButtons(type, actionsRow) {
                 let note = event.target.parentElement.parentElement;
                 actionButtonHandler(note, "deleteArchived");
             });
+            buttons = 2;
             break;
         default:
             console.log(type);
             break;
     }
+    actionsRow.getElementsByClassName("pad")[0].style.width = (100 - buttons * 21) + "%";
 }
 
 function initNote(note, notesType) {
@@ -157,19 +162,19 @@ function noteButtons(type) {
     let buttons = [];
     switch (type) {
         case ("notes"):
-            buttons[2] = "Save";
+            buttons[0] = "Save";
             buttons[1] = "Archive";
-            buttons[0] = "Delete";
+            buttons[2] = "Delete";
             break;
         case ("trash"):
-            buttons[2] = "";
+            buttons[0] = "";
             buttons[1] = "Restore";
-            buttons[0] = "Delete";
+            buttons[2] = "Delete";
             break;
         case ("archive"):
-            buttons[2] = "";
+            buttons[0] = "";
             buttons[1] = "Unarchive";
-            buttons[0] = "Delete";
+            buttons[2] = "Delete";
             break;
     }
     return buttons;

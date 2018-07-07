@@ -2,7 +2,7 @@
 function createNote(title, text, id, buttons, clas = "note") {
 	let html = `
 		<li id="note#${id}" class="${clas}">
-			<input type="text" class="title" placeholder="Title" value=${title}>  
+			<input type="text" class="title" placeholder="Title" value="${title}">  
 			<textarea class="entry" placeholder="Take a note...">${text}</textarea>
 			<div class="note-actions-row" tabindex="0">
 				<div class="dropbtn">

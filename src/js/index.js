@@ -307,7 +307,6 @@ function searchNotes() {
             title = li[i].getElementsByClassName("title")[0].value;
             entry = li[i].getElementsByClassName("entry")[0].value;
             everything = title + entry;
-            console.log(everything);
             if (everything.toUpperCase().indexOf(filter) > -1) {
                 li[i].style.display = "";
             } else {
